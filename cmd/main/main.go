@@ -4,6 +4,7 @@ import (
 	"www.github/M1ralai/tcp/cmd/server"
 )
 
+// hi
 func main() {
 	t := server.NewTCPServer(":3000")
 	t.ListenAndAccept()

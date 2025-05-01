@@ -11,6 +11,9 @@ import (
 func (t *TCPServer) handleCon(conn net.Conn) {
 	log.Print("Connection established ", conn.RemoteAddr())
 	u := menu.NoLoginMenu(conn)
+	if u == nil {
+		return
+	}
 	c := client.NewClient(*u, conn)
 	t.Clients = append(t.Clients, *c)
 	t.serverMessages(c.User.Username + " logged in\n")
