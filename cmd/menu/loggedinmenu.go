@@ -1,6 +1,8 @@
 package menu
 
 import (
+	"fmt"
+
 	"www.github/M1ralai/tcp/cmd/client"
 	"www.github/M1ralai/tcp/cmd/message"
 )
@@ -10,11 +12,22 @@ func LoggedInMenu(c client.Client) {
 	for {
 		i, err := read(c.Conn)
 		if err == nil {
-			msg := message.NewMessage([]byte(i), c.User.Username)
-			c.Msg <- msg
-			continue
+			if i[0] != ':' {
+				msg := message.NewMessage([]byte(i), c.User.Username)
+				c.Msg <- msg
+				continue
+			} else {
+				switch i {
+				case ":logout":
+					c.User.LogOut()
+					c.Conn.Close()
+					return
+				}
+			}
 		} else {
-			c.Conn.Close()
+			fmt.Printf("connection lost from a client %+v \n", c.Conn.RemoteAddr())
+			c.User.LogOut()
+			return
 		}
 	}
 }

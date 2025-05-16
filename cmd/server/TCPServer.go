@@ -33,7 +33,7 @@ func (t *TCPServer) ListenAndAccept() error {
 func (t *TCPServer) SendMessageEveryone(c client.Client) {
 	for {
 		msg := <-c.Msg
-		for i := 0; i < len(t.Clients); i++ {
+		for i := range t.Clients {
 			if t.Clients[i].User.Username != c.User.Username {
 				t.Clients[i].Conn.Write(msg.Time)
 				t.Clients[i].Conn.Write([]byte("    "))
