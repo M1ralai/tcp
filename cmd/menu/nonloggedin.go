@@ -1,7 +1,6 @@
 package menu
 
 import (
-	"errors"
 	"net"
 
 	"www.github/M1ralai/tcp/cmd/users"
@@ -65,14 +64,4 @@ func loginUserMenu(conn net.Conn) (*users.Users, error) {
 	}
 	u, err := users.LoginUser(username, password)
 	return u, err
-}
-
-func read(conn net.Conn) (string, error) {
-	buf := make([]byte, 1024)
-	n, err := conn.Read(buf)
-	if err != nil {
-		conn.Close()
-		return " ", errors.New("err")
-	}
-	return string(buf[:(n - 2)]), nil
 }
