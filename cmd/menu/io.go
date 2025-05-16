@@ -11,5 +11,8 @@ func read(conn net.Conn) (string, error) {
 		conn.Close()
 		return " ", err
 	}
+	if n == 2 {
+		n = 3
+	}
 	return string(buf[:(n - 2)]), nil
 }
