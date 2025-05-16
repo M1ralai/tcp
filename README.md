@@ -1,4 +1,4 @@
-clone this epo to the folder you want
+clone this repo to the folder you want
 open this folder in terminal
 
 go run cmd/main/main.go
