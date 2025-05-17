@@ -33,19 +33,19 @@ func (t *TCPServer) ListenAndAccept() error {
 func (t *TCPServer) SendMessageEveryone(c client.Client) {
 	for {
 		msg := <-c.Msg
-		for i := 0; i < len(t.Clients); i++ {
-			if t.Clients[i].User.Username != c.User.Username {
-				t.Clients[i].Conn.Write(msg.Time)
-				t.Clients[i].Conn.Write([]byte("    "))
-				t.Clients[i].Conn.Write([]byte(msg.SenderName))
-				t.Clients[i].Conn.Write([]byte(" :  sended:   "))
-				t.Clients[i].Conn.Write(msg.Msg)
-				t.Clients[i].Conn.Write([]byte("\n"))
+		for i := range t.Clients {
+			if t.Clients[i].Conn.RemoteAddr() == c.Conn.RemoteAddr() {
+				t.Clients[i].Conn.Write([]byte("\033[1A\033[K"))
 			}
+			t.Clients[i].Conn.Write(msg.Time)
+			t.Clients[i].Conn.Write([]byte("    "))
+			t.Clients[i].Conn.Write([]byte(msg.SenderName))
+			t.Clients[i].Conn.Write([]byte(" :  sended:   "))
+			t.Clients[i].Conn.Write(msg.Msg)
+			t.Clients[i].Conn.Write([]byte("\n"))
 		}
 	}
 }
-
 func (t *TCPServer) acceptLoop() {
 	for {
 		conn, err := t.listener.Accept()

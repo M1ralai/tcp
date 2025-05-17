@@ -27,17 +27,21 @@ func RegisterUser(username string, password string) (*Users, error) {
 }
 
 func LoginUser(username string, password string) (*Users, error) {
-	for i := 0; i < len(users); i++ {
+	for i := range users {
 		if users[i].Username == username || users[i].Password == password {
-			users[i].isLoggedIn = true
-			return &users[i], nil
+			if !users[i].isLoggedIn {
+				users[i].isLoggedIn = true
+				return &users[i], nil
+			} else {
+				return nil, errors.New("this user is already loggedin")
+			}
 		}
 	}
 	return nil, errors.New("username or password is incorrect")
 }
 
 func (u *Users) LogOut() {
-	for i := 0; i < len(users); i++ {
+	for i := range users {
 		if users[i].Username == u.Username || users[i].Password == u.Password {
 			users[i].isLoggedIn = false
 		}
