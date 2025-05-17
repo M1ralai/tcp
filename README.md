@@ -9,4 +9,6 @@ telnet localhost 3000
 
 tcp server listenening port :3000
 
-you can create user how much you want, you can login and register while tcp server is open when you close the server you will lost all of your users
+you can create user how much you want, you can login and register while tcp server is on
+
+when you close the server you will lost all of your users
