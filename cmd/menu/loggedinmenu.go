@@ -7,7 +7,7 @@ import (
 	"www.github/M1ralai/tcp/cmd/message"
 )
 
-func LoggedInMenu(c client.Client) {
+func LoggedInMenu(c *client.Client) {
 	writeLoginData(c)
 	for {
 		i, err := read(c.Conn)
@@ -18,6 +18,10 @@ func LoggedInMenu(c client.Client) {
 				continue
 			} else {
 				switch i {
+				case ":options":
+					writeOptions(c)
+				case ":list":
+					c.Req <- "1"
 				case ":logout":
 					c.User.LogOut()
 					c.Conn.Close()
@@ -32,9 +36,17 @@ func LoggedInMenu(c client.Client) {
 	}
 }
 
-func writeLoginData(c client.Client) {
+func writeOptions(c *client.Client) {
+	c.Conn.Write([]byte(":logout for close the connection and log out user \n"))
+	c.Conn.Write([]byte(":list for list currently connected users \n"))
+}
+
+func writeLoginData(c *client.Client) {
 	c.Conn.Write([]byte("\033[2J\033[1;1H"))
+	c.Conn.Write([]byte("type :option for see options"))
+	c.Conn.Write([]byte("\n"))
 	c.Conn.Write([]byte("You logged in as: "))
 	c.Conn.Write([]byte(c.User.Username))
 	c.Conn.Write([]byte("    :logout for log out\n"))
+	c.Conn.Write([]byte(" h/ m/ s/ \n"))
 }
