@@ -65,5 +65,6 @@ func loginUserMenu(conn net.Conn) (*users.Users, error) {
 	}
 	u, err := users.LoginUser(username, password)
 	//some experiment for git
+	//maceraa dolu ameeerika
 	return u, err
 }
