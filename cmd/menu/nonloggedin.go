@@ -3,6 +3,7 @@ package menu
 import (
 	"net"
 
+	"www.github/M1ralai/tcp/cmd/connio"
 	"www.github/M1ralai/tcp/cmd/users"
 )
 
@@ -13,7 +14,7 @@ func NoLoginMenu(conn net.Conn) *users.Users {
 	var err error
 	var input string
 	for {
-		input, err = read(conn)
+		input, err = connio.Read(conn)
 		if err != nil {
 			return nil
 		}
@@ -38,12 +39,12 @@ func NoLoginMenu(conn net.Conn) *users.Users {
 
 func registerUserMenu(conn net.Conn) (*users.Users, error) {
 	conn.Write([]byte("Give me a username: \n"))
-	username, err := read(conn)
+	username, err := connio.Read(conn)
 	if err != nil {
 		return nil, err
 	}
 	conn.Write([]byte("Give me a password: \n"))
-	password, err := read(conn)
+	password, err := connio.Read(conn)
 	if err != nil {
 		return nil, err
 	}
@@ -53,12 +54,12 @@ func registerUserMenu(conn net.Conn) (*users.Users, error) {
 
 func loginUserMenu(conn net.Conn) (*users.Users, error) {
 	conn.Write([]byte("Give me a username: \n"))
-	username, err := read(conn)
+	username, err := connio.Read(conn)
 	if err != nil {
 		return nil, err
 	}
 	conn.Write([]byte("Give me a password: \n"))
-	password, err := read(conn)
+	password, err := connio.Read(conn)
 	if err != nil {
 		return nil, err
 	}

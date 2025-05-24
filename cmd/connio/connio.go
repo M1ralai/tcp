@@ -1,10 +1,10 @@
-package menu
+package connio
 
 import (
 	"net"
 )
 
-func read(conn net.Conn) (string, error) {
+func Read(conn net.Conn) (string, error) {
 	buf := make([]byte, 1024)
 	n, err := conn.Read(buf)
 	if err != nil {

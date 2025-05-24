@@ -14,7 +14,8 @@ func (t *TCPServer) handleCon(conn net.Conn) {
 	c := client.NewClient(*u, conn)
 	t.Clients = append(t.Clients, *c)
 	t.serverMessages(c.User.Username + " logged in\n")
+	t.chatRooms[0].Enter(*c, "")
 	go menu.LoggedInMenu(c)
-	go t.SendMessageEveryone(*c)
+	go t.SendMessage(*c)
 	go t.clientRequestHandler(*c)
 }
