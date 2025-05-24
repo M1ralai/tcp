@@ -40,6 +40,7 @@ func (t *TCPServer) ListenAndAccept() error {
 func (t *TCPServer) SendMessage(c client.Client) {
 	for {
 		msg := <-c.Msg
+<<<<<<< HEAD
 		for i := range t.chatRooms[c.Room].Users {
 			if t.chatRooms[c.Room].Users[i].Conn.RemoteAddr() == c.Conn.RemoteAddr() {
 				t.chatRooms[c.Room].Users[i].Conn.Write([]byte("\033[1A\033[K"))
@@ -50,6 +51,16 @@ func (t *TCPServer) SendMessage(c client.Client) {
 			t.chatRooms[c.Room].Users[i].Conn.Write([]byte(" :  sended:   "))
 			t.chatRooms[c.Room].Users[i].Conn.Write(msg.Msg)
 			t.chatRooms[c.Room].Users[i].Conn.Write([]byte("\n"))
+=======
+		for i := range t.Clients {
+			t.Clients[i].Conn.Write([]byte("\033[1A\033[K"))
+			t.Clients[i].Conn.Write(msg.Time)
+			t.Clients[i].Conn.Write([]byte("    "))
+			t.Clients[i].Conn.Write([]byte(msg.SenderName))
+			t.Clients[i].Conn.Write([]byte(" :  sended:   "))
+			t.Clients[i].Conn.Write(msg.Msg)
+			t.Clients[i].Conn.Write([]byte("\n"))
+>>>>>>> master
 		}
 	}
 }

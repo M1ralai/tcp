@@ -11,6 +11,7 @@ import (
 func LoggedInMenu(c *client.Client) {
 	writeLoginData(c)
 	for {
+<<<<<<< HEAD
 		fmt.Print(c.Room)
 		i, err := connio.Read(c.Conn)
 		if err != nil {
@@ -52,6 +53,26 @@ func LoggedInMenu(c *client.Client) {
 			msg := message.NewMessage([]byte(i), c.User.Username)
 			c.Msg <- msg
 			continue
+=======
+		i, err := read(c.Conn)
+		if err == nil {
+			if i[0] != ':' {
+				msg := message.NewMessage([]byte(i), c.User.Username)
+				c.Msg <- msg
+				continue
+			} else {
+				switch i {
+				case ":logout":
+					c.User.LogOut()
+					c.Conn.Close()
+					return
+				}
+			}
+		} else {
+			fmt.Printf("connection lost from a client %+v \n", c.Conn.RemoteAddr())
+			c.User.LogOut()
+			return
+>>>>>>> master
 		}
 	}
 }
